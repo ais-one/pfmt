@@ -1,0 +1,31 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run FastAPI Sample",
+			"type": "shell",
+			"command": "./.venv/bin/uvicorn",
+			"args": [
+				"apps.app_sample.app.main:app",
+				"--reload"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run FastAPI Admin",
+			"type": "shell",
+			"command": "./.venv/bin/uvicorn",
+			"args": [
+				"apps.app_admin.app.main:app",
+				"--reload",
+				"--port",
+				"8001"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
