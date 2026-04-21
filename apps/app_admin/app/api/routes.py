@@ -1,7 +1,14 @@
 from fastapi import APIRouter
 
 from apps.app_admin.app.settings import settings
-from common.python import EchoRequest, EchoResponse, HealthResponse, ServiceInfoResponse, get_logger
+from apps.app_admin.app.version import __version__
+from common.python import (
+    EchoRequest,
+    EchoResponse,
+    HealthResponse,
+    ServiceInfoResponse,
+    get_logger,
+)
 
 logger = get_logger(settings.service_name)
 router = APIRouter()
@@ -22,6 +29,7 @@ def service_info() -> ServiceInfoResponse:
     logger.info("service metadata requested")
     return ServiceInfoResponse(
         service=settings.service_name,
+        version=__version__,
         environment=settings.environment,
         debug=settings.debug,
         host=settings.host,

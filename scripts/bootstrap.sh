@@ -52,4 +52,7 @@ for requirements_file in apps/*/requirements.txt; do
   pip install -r "$requirements_file"
 done
 
+chmod +x .githooks/pre-commit .githooks/pre-push
+git config core.hooksPath .githooks
+
 echo "Bootstrap complete. Activate with: source .venv/bin/activate"

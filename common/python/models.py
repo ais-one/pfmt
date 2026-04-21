@@ -9,6 +9,7 @@ class HealthResponse(BaseModel):
 
 class ServiceInfoResponse(BaseModel):
     service: str
+    version: str
     environment: str
     debug: bool
     host: str

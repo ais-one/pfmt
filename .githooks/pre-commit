@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RUFF=".venv/bin/ruff"
+[[ -x "$RUFF" ]] || RUFF="ruff"
+
+echo "ruff: format check..."
+"$RUFF" format --check .
+
+echo "ruff: lint..."
+"$RUFF" check .

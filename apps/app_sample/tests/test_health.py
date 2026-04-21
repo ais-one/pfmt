@@ -17,7 +17,9 @@ def test_healthcheck() -> None:
 
 
 def test_echo_message() -> None:
-    response = client.post(api_url(settings.api_base_path, "/echo"), json={"message": "hello"})
+    response = client.post(
+        api_url(settings.api_base_path, "/echo"), json={"message": "hello"}
+    )
 
     assert response.status_code == 200
     assert response.json() == {

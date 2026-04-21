@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RUFF=".venv/bin/ruff"
+[[ -x "$RUFF" ]] || RUFF="ruff"
+
+PYTEST=".venv/bin/pytest"
+[[ -x "$PYTEST" ]] || PYTEST="pytest"
+
+echo "ruff: format check..."
+"$RUFF" format --check .
+
+echo "ruff: lint..."
+"$RUFF" check .
+
+echo "pytest: running tests..."
+"$PYTEST" apps

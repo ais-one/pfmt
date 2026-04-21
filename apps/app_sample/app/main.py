@@ -2,13 +2,13 @@ from fastapi import FastAPI
 
 from apps.app_sample.app.api.routes import router
 from apps.app_sample.app.settings import settings
-
+from apps.app_sample.app.version import __version__
 
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="PFA App Sample",
-        version="0.1.0",
+        title="PFMT App Sample",
+        version=__version__,
         description="Sample FastAPI service for the Python backend monorepo.",
         debug=settings.debug,
         docs_url="/docs" if settings.docs_enabled else None,

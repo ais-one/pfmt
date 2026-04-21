@@ -31,7 +31,9 @@ def test_service_info() -> None:
 
 
 def test_echo_message() -> None:
-    response = client.post(api_url(settings.api_base_path, "/echo"), json={"message": "hello-admin"})
+    response = client.post(
+        api_url(settings.api_base_path, "/echo"), json={"message": "hello-admin"}
+    )
 
     assert response.status_code == 200
     assert response.json() == {

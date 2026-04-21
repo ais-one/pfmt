@@ -1,4 +1,4 @@
-# pfa
+# pfmt
 
 Python backend monorepo for FastAPI development using `pyenv`, `pip`, and `venv`.
 
@@ -6,6 +6,28 @@ Python backend monorepo for FastAPI development using `pyenv`, `pip`, and `venv`
 
 - Contributors: read `.github/copilot-instructions.md` for workspace-specific project guidance.
 - Developers: use `.python-version`, a local `.venv`, and `pip` requirements files for dependency management.
+- For template design principles, see this [reference](https://github.com/ais-one/cookbook?tab=readme-ov-file#1---important---read-me-first).
+
+## Template Maintenance
+
+1 - Setup to allow incoming merge from upstream template update
+
+```bash
+# run once only after you `clone`, or `fork` or `delete .git and run git init`
+./setup-upstream.sh
+```
+
+2 - Updating the template
+
+```bash
+# Commit and push to remote before running commands below
+git fetch upstream # includes tags
+git pull upstream <branch or tag> --no-rebase
+# NO MORE IN USE git merge upstream/<branch or tag> --allow-unrelated-histories
+# There may be some template related merge conflicts to resolve.
+```
+
+---
 
 ## Structure
 
@@ -71,6 +93,42 @@ Admin endpoints:
 - `GET /api/admin/v1/health`
 - `GET /api/admin/v1/info`
 - `POST /api/admin/v1/echo`
+
+## Git Hooks
+
+Hooks live in `.githooks/` and are registered automatically by `bootstrap.sh`. To set them up manually:
+
+```bash
+chmod +x .githooks/pre-commit .githooks/pre-push
+git config core.hooksPath .githooks
+```
+
+- **pre-commit** — runs `ruff format --check` and `ruff check`
+- **pre-push** — runs `ruff format --check`, `ruff check`, and `pytest apps`
+
+## Linting and Formatting
+
+This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting (installed via `requirements-dev.txt`).
+
+Check for issues:
+
+```bash
+ruff check .
+```
+
+Auto-fix issues:
+
+```bash
+ruff check --fix .
+```
+
+Format code:
+
+```bash
+ruff format .
+```
+
+Editor integration is configured in `.vscode/settings.json` to format on save using the [Ruff VS Code extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff). `.editorconfig` enforces consistent indentation and line endings across editors.
 
 ## Run Tests
 
