@@ -22,6 +22,7 @@ def test_service_info() -> None:
     assert response.status_code == 200
     assert response.json() == {
         "service": "app-admin",
+        "version": "0.1.0",
         "environment": "development",
         "debug": False,
         "host": "127.0.0.1",
