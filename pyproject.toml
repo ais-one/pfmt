@@ -16,7 +16,7 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.commitizen]
-name = "cz_conventional_commits"
+name = "cz_customize"
 version = "0.1.0"
 tag_format = "v$version"
 update_changelog_on_bump = true
@@ -25,3 +25,36 @@ version_files = [
     "apps/app_admin/app/version.py",
     "common/python/__init__.py",
 ]
+
+[tool.commitizen.customize]
+message_template = "{{change_type}}{% if scope %}({{scope}}){% endif %}: {{message}}"
+schema_pattern = "(feat|fix|chore)(\\(.+\\))?: .+"
+bump_pattern = "^(feat|fix)"
+bump_map = {"feat" = "MINOR", "fix" = "PATCH"}
+
+[[tool.commitizen.customize.questions]]
+type = "list"
+name = "change_type"
+message = "Type of change"
+choices = [
+    {value = "feat", name = "feat:  a new feature"},
+    {value = "fix", name = "fix:   a bug fix"},
+    {value = "chore", name = "chore: housekeeping, no src or test changes"},
+]
+
+[[tool.commitizen.customize.questions]]
+type = "list"
+name = "scope"
+message = "Scope of change"
+choices = [
+    {value = "repo", name = "none: cross-cutting or root-level"},
+    {value = "services", name = "service in apps: specify in description later"},
+    {value = "common", name = "common: shared modules"},
+    {value = "docs", name = "docs: documentation only"},
+    {value = "ci", name = "ci: hooks, workflows, automation"},
+]
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "message"
+message = "Commit message:"

@@ -31,14 +31,7 @@ For standardized [Conventional Commits](https://www.conventionalcommits.org/) me
 cz commit
 ```
 
-Refer to this link for commit message standard [https://github.com/es-labs/express-template/blob/main/docs/conventions.md#commit-message-standard]()
-
-When choosing a scope:
-
-- Prefer a real workspace scope such as `apps/...` or `common/...` when the change is limited to one workspace.
-- Use `docs` for documentation-only changes.
-- Use `ci` for workflow, hook, or automation changes.
-- Use `repo` for root-level or cross-cutting changes that do not fit a single workspace.
+Refer to [../pyproject.toml]() for commit types and scopes
 
 ### Code Style
 
