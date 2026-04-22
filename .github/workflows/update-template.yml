@@ -43,7 +43,7 @@ on:
   workflow_dispatch:
     inputs:
       upstream_branch:
-        description: 'Upstream branch to sync from'
+        description: 'Upstream branch to sync from. Defaults to main'
         default: 'main'
         required: false
       ref:
