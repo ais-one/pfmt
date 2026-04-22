@@ -1,4 +1,4 @@
-name: Sync Upstream Template - V0.0.1b
+name: Sync Upstream Template - V0.0.1b-11
 # Pulls the latest changes from the upstream template repository and opens a PR
 # with the diff, excluding app-specific folders that should never be overwritten.
 #
@@ -90,8 +90,10 @@ jobs:
         run: |
           if git diff --staged --quiet && git diff --quiet; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "has_changes=false"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "has_changes=true"
           fi
 
       - name: Create PR
