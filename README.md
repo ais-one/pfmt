@@ -10,22 +10,11 @@ Python backend monorepo for FastAPI development using `pyenv`, `pip`, and `venv`
 
 ## Template Maintenance
 
-1 - Setup to allow incoming merge from upstream template update
+To keep template updated. Read this [workflow](.github/workflows/update-template.yml) document.
 
-```bash
-# run once only after you `clone`, or `fork` or `delete .git and run git init`
-./setup-upstream.sh
-```
+For template end users only work on the `apps` folder
 
-2 - Updating the template
-
-```bash
-# Commit and push to remote before running commands below
-git fetch upstream # includes tags
-git pull upstream <branch or tag> --no-rebase
-# NO MORE IN USE git merge upstream/<branch or tag> --allow-unrelated-histories
-# There may be some template related merge conflicts to resolve.
-```
+For template contributors
 
 ---
 
