@@ -47,7 +47,7 @@ type = "list"
 name = "scope"
 message = "Scope of change"
 choices = [
-    {value = "repo", name = "none: cross-cutting or root-level"},
+    {value = "repo", name = "repo: cross-cutting or root-level"},
     {value = "services", name = "service in apps: specify in description later"},
     {value = "common", name = "common: shared modules"},
     {value = "docs", name = "docs: documentation only"},

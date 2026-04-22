@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "rel/*"
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      lint_dirs: ${{ steps.changes.outputs.lint_dirs }}
+      test_dirs: ${{ steps.changes.outputs.test_dirs }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed packages
+        id: changes
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+
+          LINT_DIRS=""
+          TEST_DIRS=""
+
+          for app in apps/*/; do
+            app="${app%/}"
+            if echo "$CHANGED" | grep -q "^$app/"; then
+              LINT_DIRS="$LINT_DIRS $app"
+              TEST_DIRS="$TEST_DIRS $app"
+            fi
+          done
+
+          if echo "$CHANGED" | grep -q "^common/"; then
+            LINT_DIRS="$LINT_DIRS common"
+            TEST_DIRS="apps"
+          fi
+
+          echo "lint_dirs=${LINT_DIRS## }" >> $GITHUB_OUTPUT
+          echo "test_dirs=${TEST_DIRS## }" >> $GITHUB_OUTPUT
+
+  ci:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.lint_dirs != '' || needs.detect-changes.outputs.test_dirs != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          for f in apps/*/requirements.txt; do pip install -r "$f"; done
+
+      - name: Ruff format check
+        if: needs.detect-changes.outputs.lint_dirs != ''
+        run: ruff format --check ${{ needs.detect-changes.outputs.lint_dirs }}
+
+      - name: Ruff lint
+        if: needs.detect-changes.outputs.lint_dirs != ''
+        run: ruff check ${{ needs.detect-changes.outputs.lint_dirs }}
+
+      - name: Run tests
+        if: needs.detect-changes.outputs.test_dirs != ''
+        run: pytest ${{ needs.detect-changes.outputs.test_dirs }}
