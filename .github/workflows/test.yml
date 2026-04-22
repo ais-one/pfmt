@@ -1,0 +1,10 @@
+name: Workflow For Testing Changes
+
+on:
+  workflow_dispatch:
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make Changes Here To Trigger
+        run: echo "Hello 1"

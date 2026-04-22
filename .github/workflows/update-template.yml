@@ -1,4 +1,4 @@
-name: Sync Upstream Template - V0.0.1b-11aa
+name: Sync Upstream Template
 # Pulls the latest changes from the upstream template repository and opens a PR
 # with the diff, excluding app-specific folders that should never be overwritten.
 #
@@ -107,32 +107,3 @@ jobs:
           git add -A
           git commit -m "chore: sync from upstream template"
           git push origin "$SYNC_BRANCH" --force
-
-      - name: Create or update PR
-        if: steps.changes.outputs.has_changes == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
-          REPO: ${{ github.repository }}
-          SYNC_BRANCH: chore/sync-upstream
-          UPSTREAM_BRANCH: ${{ github.event.inputs.upstream_branch || 'main' }}
-          BASE_BRANCH: ${{ github.event.inputs.ref || github.ref_name }}
-        run: |
-          trap 'echo "--- gh auth status ---"; gh auth status' ERR
-          PR_BODY="## Automated upstream template sync
-
-          Synced all files from \`$UPSTREAM_BRANCH\` branch of the upstream template.
-
-          **Excluded (preserved as-is):**
-          - \`apps/\`
-          - \`scripts/\`"
-
-          if gh pr view "$SYNC_BRANCH" --repo "$REPO" --json number &>/dev/null; then
-            gh pr edit "$SYNC_BRANCH" --repo "$REPO" --body "$PR_BODY"
-          else
-            gh pr create \
-              --repo "$REPO" \
-              --title "chore: sync from upstream template" \
-              --body "$PR_BODY" \
-              --head "$SYNC_BRANCH" \
-              --base "$BASE_BRANCH"
-          fi
