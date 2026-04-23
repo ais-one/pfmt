@@ -1,7 +1,7 @@
 - [x] Verify that the copilot-instructions.md file in the .github directory is created.
 
 - [x] Clarify Project Requirements
-  Python FastAPI backend monorepo using pyenv, pip, and venv, with no frontend tooling.
+  Python FastAPI backend monorepo using uv workspaces, with no frontend tooling.
 
 - [x] Scaffold the Project
   Created a monorepo layout with apps/, common/python/, docs/, scripts/, root setup files, and a sample FastAPI service.

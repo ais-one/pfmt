@@ -1,0 +1,16 @@
+[project]
+name = "app-sample"
+version = "0.1.0"
+description = "Sample FastAPI service."
+requires-python = "==3.12.8"
+dependencies = [
+    "fastapi==0.115.12",
+    "uvicorn[standard]==0.34.1",
+    "common-python",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+common-python = { workspace = true }

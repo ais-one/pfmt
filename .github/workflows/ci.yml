@@ -48,27 +48,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
           python-version-file: .python-version
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-        # TODO - install is very slow 
-        # for f in apps/*/requirements.txt; do pip install -r "$f"; done
+      - name: Sync workspace
+        run: uv sync --all-packages --all-groups
 
       - name: Ruff format check
         if: needs.detect-changes.outputs.lint_dirs != ''
-        run: ruff format --check ${{ needs.detect-changes.outputs.lint_dirs }}
+        run: uv run ruff format --check ${{ needs.detect-changes.outputs.lint_dirs }}
 
       - name: Ruff lint
         if: needs.detect-changes.outputs.lint_dirs != ''
-        run: ruff check ${{ needs.detect-changes.outputs.lint_dirs }}
+        run: uv run ruff check ${{ needs.detect-changes.outputs.lint_dirs }}
 
-      # TODO - when slow install is resolved
-      # - name: Run tests
-      #   if: needs.detect-changes.outputs.test_dirs != ''
-      #   run: pytest ${{ needs.detect-changes.outputs.test_dirs }}
+      - name: Run tests
+        if: needs.detect-changes.outputs.test_dirs != ''
+        run: uv run pytest ${{ needs.detect-changes.outputs.test_dirs }}
