@@ -12,6 +12,13 @@ def env_bool(name: str, default: bool) -> bool:
     return value.lower() in {"1", "true", "yes", "on"}
 
 
+def env_float(name: str, default: float) -> float:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return float(value)
+
+
 def env_int(name: str, default: int) -> int:
     value = os.getenv(name)
     if value is None:

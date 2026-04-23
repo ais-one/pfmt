@@ -1,11 +1,11 @@
 # pfmt
 
-Python backend monorepo for FastAPI development using `pyenv`, `pip`, and `venv`.
+Python backend monorepo for FastAPI development using `uv` workspaces.
 
 ## Read Me First
 
 - Contributors: read `.github/copilot-instructions.md` for workspace-specific project guidance.
-- Developers: use `.python-version`, a local `.venv`, and `pip` requirements files for dependency management.
+- Developers: use `.python-version` and `uv` workspaces (`pyproject.toml` per package) for dependency management.
 - For template design principles, see this [reference](https://github.com/ais-one/cookbook?tab=readme-ov-file#1---important---read-me-first).
 
 ## Template Maintenance
@@ -48,16 +48,9 @@ source .venv/bin/activate
 If you prefer to bootstrap manually:
 
 ```bash
-pyenv install -s $(cat .python-version)
-pyenv local $(cat .python-version)
-python3 -m venv .venv
+uv python install $(cat .python-version)
+uv sync --all-packages --all-groups
 source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements-dev.txt -r apps/app_sample/requirements.txt
-
-for file in apps/*/requirements.txt; do
-	pip install -r "$file"
-done
 ```
 
 ## Run The Sample Service
@@ -97,7 +90,7 @@ git config core.hooksPath .githooks
 
 ## Linting and Formatting
 
-This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting (installed via `requirements-dev.txt`).
+This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting (installed via the `dev` dependency group in `pyproject.toml`).
 
 Check for issues:
 

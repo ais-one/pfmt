@@ -1,3 +1,25 @@
+[project]
+name = "pfmt"
+version = "0.0.0"
+description = "Python backend monorepo root."
+requires-python = "==3.12.8"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.5",
+    "httpx==0.28.1",
+    "ruff==0.11.5",
+    "commitizen==3.29.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["common", "apps/*"]
+exclude = ["apps/__pycache__"]
+
 [tool.ruff]
 target-version = "py312"
 line-length = 88

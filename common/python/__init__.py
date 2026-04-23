@@ -2,7 +2,7 @@
 
 __version__ = "0.1.0"
 
-from common.python.config import env_bool, env_int, env_str, get_environment
+from common.python.config import env_bool, env_float, env_int, env_str, get_environment
 from common.python.logger import get_logger
 from common.python.models import (
     EchoRequest,
@@ -20,6 +20,7 @@ __all__ = [
     "api_url",
     "create_test_client",
     "env_bool",
+    "env_float",
     "env_int",
     "env_str",
     "get_environment",
