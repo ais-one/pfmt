@@ -33,6 +33,10 @@ select = [
     "UP",  # pyupgrade
 ]
 
+[tool.ruff.lint.per-file-ignores]
+# Migrated legacy app: tolerate long lines from existing docstrings/log/SQL strings.
+"apps/app_nippon_rfq_matching/**" = ["E501"]
+
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
@@ -45,6 +49,7 @@ update_changelog_on_bump = true
 version_files = [
     "apps/app_sample/app/version.py",
     "apps/app_admin/app/version.py",
+    "apps/app_nippon_rfq_matching/app/version.py",
     "common/python/__init__.py",
 ]
 
