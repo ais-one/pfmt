@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Set INSTALL_MACOS_REQUIREMENTS=true only on macOS
+      # On Windows/Linux, leave as false (default)
+      args:
+        INSTALL_MACOS_REQUIREMENTS: "false"
+    container_name: rfq-product-matching-api
+    ports:
+      - "8000:8000"
+    environment:
+      # App
+      - APP_NAME=RFQ Product Matching API
+      - APP_VERSION=1.0.0
+      - DEBUG=False
+
+      # Database
+      - DATABASE_URL=sqlite:///./data/rfq_matching.db
+
+      # Storage
+      - UPLOAD_DIR=./data/uploads
+      - STORAGE_DIR=./data/storage
+      - CSV_DIR=./data/storage/csv
+
+      # API
+      - API_V1_PREFIX=/api/v1
+
+      # Matching
+      - MIN_MATCH_SCORE=70.0
+
+      # LlamaParse (optional - set your API key)
+      - LLAMAPARSE_API_KEY=${LLAMAPARSE_API_KEY:-}
+      - LLAMAPARSE_TIMEOUT=300
+
+      # OpenAI API (required for semantic search and normalization)
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+      - OPENAI_EMBEDDING_DIMENSIONS=512
+      - OPENAI_CHAT_MODEL=gpt-4o-mini
+      - OPENAI_TEMPERATURE=0.0
+      - OPENAI_MAX_TOKENS=4000
+
+      # Semantic Matching Settings
+      - SEMANTIC_MATCH_THRESHOLD=0.85
+      - HYBRID_MATCH_THRESHOLD=0.90
+      - ENABLE_SEMANTIC_SEARCH=True
+
+      # Vector DB Settings
+      - VECTOR_DB_PATH=./data/vectors
+    volumes:
+      # Persist data directory
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  data:

@@ -10,3 +10,12 @@ __pycache__/
 htmlcov/
 .env
 .DS_Store
+
+# app_nippon_rfq_matching runtime artifacts
+apps/app_nippon_rfq_matching/data/rfq_matching.db
+apps/app_nippon_rfq_matching/data/vectors/
+apps/app_nippon_rfq_matching/data/uploads/*
+!apps/app_nippon_rfq_matching/data/uploads/.gitkeep
+apps/app_nippon_rfq_matching/data/storage/*
+!apps/app_nippon_rfq_matching/data/storage/.gitkeep
+apps/app_nippon_rfq_matching/data/output/
